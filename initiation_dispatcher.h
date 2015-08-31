@@ -1,29 +1,39 @@
 #ifndef REACTOR_INITIATION_DISPATCHER_H_
 #define REACTOR_INITIATION_DISPATCHER_H_
+
+#include <stdint.h>
+#include <map>
+
 /***********************************
  * Types of events handled by the 
  * Initiation_Dispatcher.
  * These values can be efficiently 
  * use or to form composite values.
  */
-enum EventType{
-  ACCEPT_EVENT = 01;
-  READ_EVENT = 02;
-  WRITE_EVENT = 04;
-  TIMEOUT_EVENT = 010;
-  SIGNAL_EVENT = 020;
-  CLOSE_EVENT = 040;
+namespace reactor{
+enum EventType {
+  ACCEPT_EVENT = 01,
+  READ_EVENT = 02,
+  WRITE_EVENT = 04,
+  TIMEOUT_EVENT = 010,
+  SIGNAL_EVENT = 020,
+  CLOSE_EVENT = 040,
 };
 
-class Event_Handler;
+class EventHandler;
 /*****************************
  * Demultiplex and dispatch 
  * Event_Handlers.
  */
-class InitiationDispatcher{
+class InitiationDispatcher {
  public:
-  int register_handler(Event_Handler *_eh, Event_Type _et);
-  int remove_handler(Event_Handler *_eh, Event_Type _et);
-  int handler_events(int _timeout = 0);  
+  int register_handler(EventHandler *_eh, EventType _et);
+  int remove_handler(EventHandler *_eh, EventType _et);
+  int handle_events(int _timeout);  
+  static InitiationDispatcher* instance();
+ private:
+  InitiationDispatcher *instance_;
+  std::multimap<intptr_t, EventType> event_map_;
 };
+}
 #endif

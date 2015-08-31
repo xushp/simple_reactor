@@ -4,14 +4,14 @@ namespace reactor{
 class LoggingAcceptor : public EventHandler {
  public:
   LoggingAcceptor();
-  virtual void handle_event(EventType et);
-  virtual HANDLE get_handle(void) const
-  {
-    return accept_.get_handle();
+  virtual void handle_event(EventType _et);
+  virtual int get_handle(void) const {
+    //return accept_.get_handle();
+    return 0;
   }
  
  private:
-  SockAcceptor acceptor_;
+  net::SockAcceptor acceptor_;
 };
 }
 #endif
