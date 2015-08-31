@@ -22,8 +22,8 @@ class Event_Handler;
  */
 class InitiationDispatcher{
  public:
-  int register_handler(Event_Handler *eh, Event_Type et);
-  int remove_handler(Event_Handler *eh, Event_Type et);
-  int handler_events(int timeout = 0);  
+  int register_handler(Event_Handler *_eh, Event_Type _et);
+  int remove_handler(Event_Handler *_eh, Event_Type _et);
+  int handler_events(int _timeout = 0);  
 };
 #endif
