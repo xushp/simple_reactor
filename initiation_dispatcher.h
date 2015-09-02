@@ -29,11 +29,11 @@ class InitiationDispatcher {
  public:
   int register_handler(EventHandler *_eh, EventType _et);
   int remove_handler(EventHandler *_eh, EventType _et);
-  int handle_events(int _timeout);  
+  int handle_events(int _timeout = 0); 
   static InitiationDispatcher* instance();
  private:
-  InitiationDispatcher *instance_;
-  std::multimap<intptr_t, EventType> event_map_;
+  static InitiationDispatcher *instance_;
+  std::map<intptr_t, int> event_map_;
 };
 }
 #endif

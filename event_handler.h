@@ -1,5 +1,6 @@
 #ifndef EVENT_HANDLER_H_
 #define EVENT_HANDLER_H_
+#include "initiation_dispatcher.h"
 namespace reactor {
 class EventHandler {
  public:
