@@ -3,7 +3,14 @@
 namespace net {
 class SockAcceptor {
  public:
-  int get_handle(void);
+  SockAcceptor(int _port); 
+  inline int get_handle(void) {
+    return handle_;
+  }
+  int init(void);
+ private:
+  int handle_;
+  int port_;
 };
 
 class SockStream {
