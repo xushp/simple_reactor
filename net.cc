@@ -1,5 +1,6 @@
+#include "net.h"
 namespace net {
-SockAcceptor::SockAcceptor(int _port) : port_(_port), handle(0) { 
+SockAcceptor::SockAcceptor(int _port) : port_(_port), handle_(0) { 
   
 }
 
@@ -23,9 +24,34 @@ int SockAcceptor::init(void) {
     return -1;
   }
   
-  if 
-
-  
-
+  if (listen(handle_, 10) == -1) {
+    return -1;
+  }
+  return 0;
 }
+
+int SockAcceptor::accept_sock(SockStream &client_stream_) {
+  socklen_t len = 0;
+  if ((client_stream_.handle_ = accept(handle_,
+                                      (struct sockaddr*)&client_stream_.remote_address_,
+                                      &len)) == -1)
+    return -1;
+  return 0;
+}
+
+SockStream::SockStream() : handle_(0) {
+  bzero(&remote_address_, sizeof(remote_address_));
+  bzero(buf_, BUF_SIZE);
+}
+
+int SockStream::recv_stream() {
+  size_t recv_count = 0;
+  if ((recv_count = recv(handle_, buf_, BUF_SIZE, 0)) == -1)
+    return -1;
+  else {
+    buf_[recv_count] = '\0';
+    std::cout << buf_ << std::endl;
+  }
+}
+
 }

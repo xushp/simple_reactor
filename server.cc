@@ -15,12 +15,29 @@ using namespace std;
 
 int main()
 {
-  reactor::EventHandler *acceptor_handler = new reactor::LoggingAcceptor();
+  //reactor::EventHandler *acceptor_handler = new reactor::LoggingAcceptor();
+
   /*
   net::InetAddr server_addr(PORT);
   reactor::LoggingAcceptor la;
   for (;;)
     reactor::InitiationDispatcher::instance()->handle_events();
   */
+  net::SockStream sock;
+  net::SockAcceptor acceptor(PORT);
+  if (acceptor.init() == -1)
+  {
+    LOG("acceptor init fail");
+    perror("acceptor init");
+  }
+  
+  if (acceptor.accept_sock(sock) == -1) 
+  {
+    LOG("accept fail");
+    perror("accept");
+  }
+
+  sock.recv_stream();
+
   return 0;
 }
