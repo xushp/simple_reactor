@@ -5,8 +5,8 @@ LoggingAcceptor::LoggingAcceptor() : acceptor_(0) {
   InitiationDispatcher::instance()->register_handler(this, ACCEPT_EVENT);
 }
 
-void LoggingAcceptor::handle_event(EventType _et) {
-  if (_et != ACCEPT_EVENT) {
+void LoggingAcceptor::handle_event(int _event_type) {
+  if (!(_event_type & ACCEPT_EVENT)) {
     LOG("logging acceptor must be ACCEPT_EVENT");
     return;
   }

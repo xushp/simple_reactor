@@ -4,7 +4,7 @@
 namespace reactor {
 class EventHandler {
  public:
-  virtual void handle_event(EventType _et) = 0;
+  virtual void handle_event(int _et) = 0;
   virtual int get_handle(void) const = 0;
 };
 }

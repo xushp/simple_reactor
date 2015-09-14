@@ -4,7 +4,7 @@ namespace reactor {
 class LoggingHandler : public EventHandler {
  public:
   LoggingHandler();
-  virtual void handle_event(EventType _et);
+  virtual void handle_event(int _event_type);
   virtual int get_handle(void) const
   {
     return 0;   

@@ -29,17 +29,27 @@ class EventHandler;
  */
 class InitiationDispatcher {
  public:
-  typedef std::map<intptr_t, int> EventMap;
-  typedef std::map<intptr_t, int>::iterator EventMapIter;
-  int register_handler(EventHandler *_eh, EventType _et);
-  int remove_handler(EventHandler *_eh, EventType _et);
+  struct EventInfo {
+    EventHandler* handler_;
+    int event_types_;
+   public:
+      EventInfo(EventHandler* _handler, int _types) : handler_(_handler) {
+        event_types_ = static_cast<int>(_types);
+      }
+  };
+  typedef std::map<int, EventInfo> EventMap;
+  typedef std::map<int, EventInfo>::iterator EventMapIter;
+  typedef std::pair<int, EventInfo> EventPair;
+  int register_handler(EventHandler* _event_handler, int _event_types);
+  int remove_handler(EventHandler* _event_handler, int _event_types);
   int handle_events(int _timeout = 0); 
   static InitiationDispatcher* instance();
  private:
   InitiationDispatcher();
   static InitiationDispatcher *instance_;
-  std::map<intptr_t, int> event_map_;
   int fd_max_;
+  // event map and fd sets of select
+  EventMap event_map_;
   fd_set read_fds_;
 };
 }

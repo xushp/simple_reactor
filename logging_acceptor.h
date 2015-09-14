@@ -8,7 +8,7 @@ namespace reactor{
 class LoggingAcceptor : public EventHandler {
  public:
   LoggingAcceptor();
-  virtual void handle_event(EventType _et);
+  virtual void handle_event(int _event_type);
   virtual int get_handle(void) const; 
   
  private:
