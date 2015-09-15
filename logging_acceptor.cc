@@ -1,7 +1,7 @@
 #include "logging_acceptor.h"
 
 namespace reactor {
-LoggingAcceptor::LoggingAcceptor() : acceptor_(0) {
+LoggingAcceptor::LoggingAcceptor(int _port) : acceptor_(_port) {
   InitiationDispatcher::instance()->register_handler(this, ACCEPT_EVENT);
 }
 
@@ -16,11 +16,8 @@ void LoggingAcceptor::handle_event(int _event_type) {
     LOG("accept error");
     return;
   }
-  
-  LoggingHandler *logging_handler = new LoggingHandler(new_connection);
-}
 
-int LoggingAcceptor::get_handle(void) const{
-  return acceptor_.get_handle();
+  LOG("client %d is comming", new_connection.get_handle());
+  LoggingHandler *logging_handler = new LoggingHandler(new_connection);
 }
 }

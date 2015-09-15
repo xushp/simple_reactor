@@ -14,7 +14,7 @@ class SockStream {
   friend class SockAcceptor;
  public:
   SockStream();
-  inline int get_handle(void) {
+  inline int get_handle(void) const {
     return handle_;
   }
   int recv_stream();
@@ -27,9 +27,9 @@ class SockStream {
 class SockAcceptor {
  public:
   SockAcceptor(int _port); 
-  inline int get_handle(void) {
+  inline int get_handle(void) const {
     return handle_;
-  }
+   }
   int init(void);
   int accept_sock(SockStream&);
  private:

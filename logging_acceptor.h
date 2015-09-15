@@ -7,9 +7,11 @@
 namespace reactor{
 class LoggingAcceptor : public EventHandler {
  public:
-  LoggingAcceptor();
+  LoggingAcceptor(int _port);
   virtual void handle_event(int _event_type);
-  virtual int get_handle(void) const; 
+  virtual int get_handle(void) const {
+    return acceptor_.get_handle();
+  }
   
  private:
   net::SockAcceptor acceptor_;

@@ -31,6 +31,8 @@ int InitiationDispatcher::register_handler(EventHandler *_event_handler, int _ev
     FD_SET(handle, &read_fds_);
     fd_max_ = MAX(handle, fd_max_);
   }
+  LOG("handle:%d added", handle);
+
   return 0;
 }
 
@@ -68,23 +70,25 @@ int InitiationDispatcher::remove_handler(EventHandler *_event_handler, int _even
 
 int InitiationDispatcher::handle_events(int _timeout) {
   struct timeval tv;
+  struct timeval *ptv = _timeout ? &tv : NULL;
   tv.tv_sec = _timeout;
 
-  if (select(fd_max_ + 1, &read_fds_, NULL, NULL, &tv) == -1) {
+  if (select(fd_max_ + 1, &read_fds_, NULL, NULL, ptv) == -1) {
     LOG("select failed");
     perror("select");
     return -1;
   }
 
   for (int i = 0; i <= fd_max_; i++) {
-    FD_ISSET(i, &read_fds_);
-    EventMapIter iter = event_map_.find(i);
-    if (iter == event_map_.end()) {
-      LOG("fd doesn't corresponding to event map");
-      return -1;
+    if (FD_ISSET(i, &read_fds_)) {
+      EventMapIter iter = event_map_.find(i);
+      if (iter == event_map_.end()) {
+        LOG("fd doesn't corresponding to event map");
+        return -1;
+      }
+      EventHandler* event_handler = iter->second.handler_;
+      event_handler->handle_event(iter->second.event_types_);
     }
-    EventHandler* event_handler = iter->second.handler_;
-    event_handler->handle_event(iter->second.event_types_);
   }
   return 0;
 }

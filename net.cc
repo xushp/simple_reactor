@@ -1,12 +1,16 @@
+#include <strings.h>
 #include "net.h"
+#include "log.h"
 namespace net {
 SockAcceptor::SockAcceptor(int _port) : port_(_port), handle_(0) { 
-  
+  LOG("init");
+  init(); 
 }
 
 int SockAcceptor::init(void) {
   int yes = 1;
   sockaddr_in local_address;
+
 
   if ((handle_ = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     return -1;
@@ -16,6 +20,7 @@ int SockAcceptor::init(void) {
     return -1;
   }
 
+  bzero(&local_address, sizeof(local_address));
   local_address.sin_family = AF_INET;
   local_address.sin_addr.s_addr = INADDR_ANY;
   local_address.sin_port = htons(port_);
@@ -27,6 +32,7 @@ int SockAcceptor::init(void) {
   if (listen(handle_, 10) == -1) {
     return -1;
   }
+  LOG("init complete:%d.", port_);
   return 0;
 }
 
@@ -50,7 +56,7 @@ int SockStream::recv_stream() {
     return -1;
   else {
     buf_[recv_count] = '\0';
-    std::cout << buf_ << std::endl;
+    std::cout << "recv form handle " << handle_ << ":" << buf_ << std::endl;
   }
 }
 
