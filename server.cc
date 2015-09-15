@@ -19,6 +19,7 @@ int main()
   reactor::EventHandler *acceptor_handler = new reactor::LoggingAcceptor(PORT);
   for (;;) {
     reactor::InitiationDispatcher::instance()->handle_events(0);
+    LOG("handle events restart");
   }
   
   

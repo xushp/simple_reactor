@@ -22,12 +22,14 @@ int InitiationDispatcher::register_handler(EventHandler *_event_handler, int _ev
   int handle = _event_handler->get_handle();
   EventMapIter iter = event_map_.find(handle);
   if (iter == event_map_.end()) {
+    LOG("handle:%d, insert map", handle);
     event_map_.insert(EventPair(handle, EventInfo(_event_handler, _event_types)));
   } else {
     iter->second.event_types_ |= _event_types;
   }
   
   if (_event_types & ACCEPT_EVENT || _event_types & READ_EVENT) {
+    LOG("handle:%d, fd_set handle", handle);
     FD_SET(handle, &read_fds_);
     fd_max_ = MAX(handle, fd_max_);
   }
@@ -73,14 +75,17 @@ int InitiationDispatcher::handle_events(int _timeout) {
   struct timeval *ptv = _timeout ? &tv : NULL;
   tv.tv_sec = _timeout;
 
-  if (select(fd_max_ + 1, &read_fds_, NULL, NULL, ptv) == -1) {
+  fd_set old_set = read_fds_;
+  int trigger_cnt = 0;
+  if ((trigger_cnt = select(fd_max_ + 1, &old_set, NULL, NULL, ptv)) == -1) {
     LOG("select failed");
     perror("select");
     return -1;
   }
 
+  LOG("trigger cnt:%d", trigger_cnt);
   for (int i = 0; i <= fd_max_; i++) {
-    if (FD_ISSET(i, &read_fds_)) {
+    if (FD_ISSET(i, &old_set)) {
       EventMapIter iter = event_map_.find(i);
       if (iter == event_map_.end()) {
         LOG("fd doesn't corresponding to event map");

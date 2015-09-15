@@ -7,6 +7,7 @@ LoggingHandler::LoggingHandler(net::SockStream& _sock) : peer_stream_(_sock) {
 }
 
 void LoggingHandler::handle_event(int _event_type) {
+  LOG("handl event,type:%d", _event_type);
   if (_event_type & READ_EVENT) {
     LOG("client %d's  message is comming", peer_stream_.get_handle());
     peer_stream_.recv_stream();
