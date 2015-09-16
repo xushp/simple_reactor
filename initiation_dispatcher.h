@@ -6,6 +6,9 @@
 #include <stdint.h>
 #include <map>
 
+#include "event_handler.h"
+#include "log.h"
+
 /***********************************
  * Types of events handled by the 
  * Initiation_Dispatcher.

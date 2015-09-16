@@ -1,5 +1,4 @@
 #include "logging_handler.h"
-#include "log.h"
 
 namespace reactor {
 LoggingHandler::LoggingHandler(net::SockStream& _sock) : peer_stream_(_sock) {

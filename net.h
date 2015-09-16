@@ -8,6 +8,8 @@
 #include <strings.h>
 #include <unistd.h>
 
+#include "net.h" 
+
 namespace net {
 #define BUF_SIZE  8096
 class SockAcceptor;

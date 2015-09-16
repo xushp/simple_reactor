@@ -1,8 +1,5 @@
 #include "initiation_dispatcher.h"
 
-#include "event_handler.h"
-#include "log.h"
-
 #define MAX(a, b)   ((a) < (b) ? (b):(a))
 namespace reactor{
 
