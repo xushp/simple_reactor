@@ -33,7 +33,7 @@ int InitiationDispatcher::register_handler(EventHandler *_event_handler, int _ev
     FD_SET(handle, &read_fds_);
     fd_max_ = MAX(handle, fd_max_);
   }
-  LOG("handle:%d added", handle);
+  LOG("handle:%d added,handle count:%d.", handle, event_map_.size());
 
   return 0;
 }
@@ -61,6 +61,7 @@ int InitiationDispatcher::remove_handler(EventHandler *_event_handler, int _even
   if (iter->second.event_types_ == 0) {
     delete iter->second.handler_;
     event_map_.erase(iter);
+    LOG("remove from event map,handle count:%d.", event_map_.size());
   }
 
   // remove from read_fds_

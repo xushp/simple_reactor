@@ -2,6 +2,7 @@
 #define LOGGING_HANDLER_H_
 #include "net.h" 
 #include "event_handler.h"
+
 namespace reactor {
 class LoggingHandler : public EventHandler {
  public:

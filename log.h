@@ -1,8 +1,10 @@
+#ifndef LOG_H_
+#define LOG_H_
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-#ifndef LOG_H_
-#define LOG_H_
+
 namespace log {
 //#define LOG fprintf(stdout, "Error:[%s,%s](%s/%s:Line %d)\n",       \
     __DATE__, __TIME__, __FILE__, __FUNCTION__, __LINE__)

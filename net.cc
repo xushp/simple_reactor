@@ -11,7 +11,6 @@ int SockAcceptor::init(void) {
   int yes = 1;
   sockaddr_in local_address;
 
-
   if ((handle_ = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
     return -1;
   }
@@ -56,8 +55,13 @@ int SockStream::recv_stream() {
     return -1;
   else {
     buf_[recv_count] = '\0';
-    std::cout << "recv form handle " << handle_ << ":" << buf_ << std::endl;
+    std::cout << "recv form handle " << recv_count << "bytes,content:" << handle_ << ":" << buf_ << std::endl;
   }
+  return recv_count;
+}
+
+void SockStream::close_stream() {
+  close(handle_);
 }
 
 }

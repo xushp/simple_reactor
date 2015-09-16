@@ -6,6 +6,7 @@
 #include <arpa/inet.h>
 #include <iostream> 
 #include <strings.h>
+#include <unistd.h>
 
 namespace net {
 #define BUF_SIZE  8096
@@ -18,6 +19,7 @@ class SockStream {
     return handle_;
   }
   int recv_stream();
+  void close_stream();
  private:
   char buf_[BUF_SIZE];
   int handle_;
