@@ -14,7 +14,7 @@ namespace log {
 inline
 void log(const char *_format, ...) {
 //#define _DEBUG
-#ifdef _DEBUG
+#ifndef _DEBUG
   return;
 #endif
   va_list list;

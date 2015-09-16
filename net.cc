@@ -55,7 +55,7 @@ int SockStream::recv_stream() {
     return -1;
   else {
     buf_[recv_count] = '\0';
-    std::cout << "recv form handle " << recv_count << "bytes,content:" << handle_ << ":" << buf_ << std::endl;
+    std::cout << "recv from handle " << handle_ << ", " << recv_count << " bytes,content:" << ":" << buf_ << std::endl;
   }
   return recv_count;
 }
