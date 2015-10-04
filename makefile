@@ -1,28 +1,39 @@
-server.out client.out : server.o initiation_dispatcher.o logging_acceptor.o logging_handler.o net.o
-	g++ -o server.out server.o initiation_dispatcher.o logging_acceptor.o logging_handler.o net.o
+CC					= g++
+CFLAGS			= -Wall -g -O
+INCLUDES	  =
+LIBS				= 
+OBJS 				= server.o 								\
+							initiation_dispatcher.o \
+							logging_acceptor.o 			\
+							logging_handler.o				\
+							net.o
+
+SOURCE			=	$(OBJS:.o=.cpp)
+
+TARGET 			= server.out client.out
+
+all : $(TARGET)
+.PHONY: all 
+
+server.out : $(OBJS)
+	$(CC) -o $@ $^
+client.out : 
 	gcc -o client.out client.c
 
 #client.out : client.o
 #	gcc -o client.out client.o
 
-client.o : client.c
-	gcc -c client.c
+%.o : %.cc
+		$(CC) -o $@ -c $< $(CFLAGS) $(INCLUDES)
 
-server.o : server.cc initiation_dispatcher.h net.h event_handler.h logging_acceptor.h log.h
-	g++ -c server.cc
+%.d:%.cpp
+		@set -e; rm -f $@; 	$(CC) -MM $(CFLAGS) $(INCLUDES) $< > $@.$$$$; \
+		sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@;  \
+		rm -f $@.$$$$ 
 
-initiation_dispatcher.o : initiation_dispatcher.cc initiation_dispatcher.h 
-	g++ -c initiation_dispatcher.cc
 
-logging_acceptor.o : logging_acceptor.cc logging_acceptor.h 
-	g++ -c logging_acceptor.cc
-
-logging_handler.o : logging_handler.cc logging_handler.h 
-	g++ -c logging_handler.cc
-
-net.o : net.cc net.h
-	g++ -c net.cc
-
+.PHONY: clean
+.IGNORE:clean
 clean :
-	rm server.out client.out server.o initiation_dispatcher.o logging_acceptor.o logging_handler.o net.o
+	-rm $(OBJS) *.o *.d *.d.* $(TARGET) 
 
